@@ -1,0 +1,4 @@
+chaine bonjour = "Salut tout le monde!"
+
+Log("Salut tout le monde!")
+Log(bonjour)

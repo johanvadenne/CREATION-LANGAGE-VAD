@@ -1,0 +1,18 @@
+char* separer(char *texte, char *séparateur, bool garderSeparateur = true) {
+
+    int i, tailleTableau = 0;
+
+    while (*texte {
+
+        if (strstr(texte, separateur) = texte) {
+            tailleTableau++;
+        }
+        *texte++;
+
+    }
+    
+    if (garderSeparateur){
+       char *chaineSeparee = (char *)malloc(tailleTableau+tailleTableau+1);
+    }
+ 
+}

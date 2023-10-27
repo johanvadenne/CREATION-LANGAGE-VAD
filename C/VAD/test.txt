@@ -1,0 +1,2 @@
+Contenue paramètre : OK
+le fichier compilateur_vad.exe : trouvé
