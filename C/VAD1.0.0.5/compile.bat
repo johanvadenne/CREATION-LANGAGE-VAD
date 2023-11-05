@@ -1,0 +1,1 @@
+gcc compilateurVad.c -o programmeVAD.exe

@@ -110,7 +110,7 @@ char* construitChaine(char *texte, char *argument, ...) {
 
     // init
     bool positionneArgument = false;
-    char[] *tabArgRecue = NULL;
+    char *tabArgRecue[] = NULL;
     int i = 0, j = 0, l = 0, nbrParamDetect = 0, numArgument = 0, nbrCharArgumentAjout = 0, nbrArgRecue = 0;
     va_list listeArgument;  // Déclaration de la liste d'arguments variable
     va_start(listeArgument, *argument);  // pointe sur le début de la liste des arguments
