@@ -7,23 +7,23 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-const char *typeVariable[] = {"chaine", "entier", "decimale", "booleen", "tableau"};
-const int nbrTypeVariable = sizeof(typeVariable) / sizeof(typeVariable[0]);
+const char *typeVariableVAD[] = {"chaine", "entier", "decimale", "booleen", "tableau"};
+const char *typeVariableC[] = {"char[]", "int", "float", "bool", "char[]"};
+const int nbrTypeVariableVAD = sizeof(typeVariableVAD) / sizeof(typeVariableVAD[0]);
 
 // initialisation fonction
-// fonction générale au compilateur vad
 void verifieParametre(int nbrParam);
-bool declarationVariable(const char *chaine);
+bool declarationVariable(const char *chaine, char **programmeC);
 void journalInt(int value);
 void journalDouble(double value);
 void journalChar(char value);
-// fonction réutilisé pour la compilation
 bool fichierExiste(const char *nomChemin);
 void erreur(char *texte);
 void journal(const char *format, ...);
 char *lectureFichier(const char *nomChemin);
 void compilation(char *programmeVad);
 int occurence(const char *chaine, const char *chaineOccurence);
+void ajouterTexte(char **texte, size_t *taille, const char *nouveauTexte);
 
 // principale
 int main(int nbrParam, char *param[])
@@ -184,16 +184,25 @@ int occurence(const char *chaine, const char *chaineOccurence) {
     return lignes;
 }
 
-bool declarationVariable(const char *chaine) {
+bool declarationVariable(const char *chaine, char **programmeC) {
 
     bool variableTrouve = false;
 
-    for (int i = 0; i < nbrTypeVariable; i++) {
-        char variableRecherchee[strlen(typeVariable[i]) + 2]; // +2 pour l'espace et le caractère nul
-        snprintf(variableRecherchee, sizeof(variableRecherchee), "%s ", typeVariable[i]);
+    for (int i = 0; i < nbrTypeVariableVAD; i++) {
+        char variableRecherchee[strlen(typeVariableVAD[i]) + 2]; // +2 pour l'espace et le caractère nul
+        snprintf(variableRecherchee, sizeof(variableRecherchee), "%s ", typeVariableVAD[i]);
 
         if (strncmp(chaine, variableRecherchee, strlen(variableRecherchee)) == 0) {
             variableTrouve = true;
+            switch (expression)
+            {
+            case /* constant-expression */:
+                /* code */
+                break;
+            
+            default:
+                break;
+            }
             break;
         }
     }
@@ -201,11 +210,21 @@ bool declarationVariable(const char *chaine) {
     return variableTrouve;
 }
 
+void ajouterTexte(char **texte, size_t *taille, const char *nouveauTexte) {
+    size_t nouvelleTaille = *taille + strlen(nouveauTexte) + 1;  // +1 pour le caractère nul
+    *texte = (char *)realloc(*texte, nouvelleTaille);  // Réallouer de la mémoire pour le texte
+    if (*texte != NULL) {
+        strcat(*texte, nouveauTexte);  // Ajouter le nouveau texte
+        *taille = nouvelleTaille - 1;  // Mettre à jour la taille
+    }
+}
+
 void compilation(char *programmeVad)
 {
 
     // détection du prmier utiliser
     // variable, classe, création fonction ou appelle fonction
+    char[] *programmeC = NULL;
     int nbrLigne = occurence(programmeVad, "\n");
     char **tabLigne = (char **)malloc(occurence(programmeVad, "\n") * sizeof(char *));
 
@@ -225,9 +244,8 @@ void compilation(char *programmeVad)
     {
         journal(tabLigne[i]);
         
-        if (declarationVariable(tabLigne[i])) {
+        if (declarationVariable(tabLigne[i], &programmeC)) {
             journal("OK");
-            // créer la fonction qui déclare une variable
         }
     }
 }

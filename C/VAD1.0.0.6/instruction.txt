@@ -1,0 +1,32 @@
+main() {
+    vérifie si le nombre de parametre est OK
+    vérifie si le fichier existe
+    ouvre le fichier est récupère le code
+    compileCode()
+}
+
+compileCode() {
+    découpe le texte par saute de ligne
+    detecteVariable()
+}
+
+detecteVariable() {
+    si commence par le nom de la variable()
+    si commence par classe()
+    si commence par fonction()
+    si commence par le nom de la fonction()
+}
+
+si commence par le nom de la variable() {
+    si "=" dans la ligne {
+        coupe par "="
+        coupe par " "
+        tab[0] = variable
+        tab[1] = nom
+        tab[2] = "="
+        tab[3] = chaine
+    }
+    sinon {
+        coupe par " "
+    }
+}
