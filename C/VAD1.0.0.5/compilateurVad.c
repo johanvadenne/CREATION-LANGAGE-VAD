@@ -7,8 +7,8 @@
 #include <stdarg.h>
 #include <ctype.h>
 
-const char *typeVariableVAD[] = {"chaine", "entier", "decimale", "booleen", "tableau"};
-const char *typeVariableC[] = {"char[]", "int", "float", "bool", "char[]"};
+const char *typeVariableVAD[] = {"chaine"};
+const char *typeVariableC[] = {"declareChaine(@1)"};
 const int nbrTypeVariableVAD = sizeof(typeVariableVAD) / sizeof(typeVariableVAD[0]);
 
 // initialisation fonction
@@ -224,9 +224,10 @@ void compilation(char *programmeVad)
 
     // détection du prmier utiliser
     // variable, classe, création fonction ou appelle fonction
-    char[] *programmeC = NULL;
+    char *programmeC = NULL;
     int nbrLigne = occurence(programmeVad, "\n");
     char **tabLigne = (char **)malloc(occurence(programmeVad, "\n") * sizeof(char *));
+    const char *pattern = "[^=]+=\"([^\"]+)\"";
 
     int index = 0;
     char *token = strtok(programmeVad, "\n");

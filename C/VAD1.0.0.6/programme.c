@@ -8,19 +8,26 @@
 void verifieParametre(int nbrParam);
 char *declareChaine(const char *chaine);
 void affecteChaine(char **variable, const char *chaineAffecte);
-void journal(char *chaine, ...);
-void erreur(char *chaine, ...);
-char *construitChaine(char *chaine, char **param);
+void *concateChaine(char **variable, const char *chaineConcate1, const char *chaineConcate2);
+void journal(const char *chaine, ...);
+void erreur(const char *chaine, ...);
+char *construitChaine(const char *chaine, char **param);
 bool fichierExiste(const char *nomChemin);
 char *lectureFichier(const char *nomChemin);
+void compilation(char *programmeVad);
+int occurence(const char *chaine, const char *chaineOccurence);
+bool declarationVariable(const char *chaine, char **programmeC);
 
+
+const char *typeVariableVAD[] = {"chaine"};
+const char *typeVariableC[] = {"char *@1 declareChaine(@2);"};
 
 int main(int nbrParam, char *param[]) {
     journal("@1", "", NULL);
     verifieParametre(nbrParam);
     if (!fichierExiste(param[1])) { erreur("le fichier @1 est introuvable", param[1]); } else { journal("chemin \"@1\" trouve", param[1]); }
     char *programmeVad = lectureFichier(param[1]);
-    journal(programmeVad);
+    compilation(programmeVad);
 
     return 0;
 }
@@ -30,14 +37,26 @@ void affecteChaine(char **variable, const char *chaineAffecte) {
     strcpy(*variable, chaineAffecte);  // Copie la nouvelle chaîne
 }
 
+void concateChaine(char **variable, const char *chaineConcate1, const char *chaineConcate2) {
+    size_t nouvelleTaille = strlen(chaineConcate1) + strlen(chaineConcate2) + 1;
+    *variable = (char *)realloc(*variable, nouvelleTaille);
+    
+    strcat(*variable, chaineConcate1);
+    strcat(*variable, chaineConcate2);
+}
+
 char *declareChaine(const char *chaine) {
-    char *nouvelleChaine = (char *)malloc(strlen(chaine) + 1);
-    strcpy(nouvelleChaine, chaine);
+    
+    char *nouvelleChaine;
+    if (chaine == NULL) {
+        nouvelleChaine = (char *)malloc(strlen(chaine) + 1);
+        strcpy(nouvelleChaine, chaine);
+    }
     return nouvelleChaine;
 }
 
 
-void journal(char *chaine, ...) {
+void journal(const char *chaine, ...) {
     va_list vargs;
     va_start(vargs, chaine);
     int nbrParam = 0;
@@ -69,7 +88,7 @@ void journal(char *chaine, ...) {
     va_end(vargs);
 }
 
-void erreur(char *chaine, ...) {
+void erreur(const char *chaine, ...) {
     va_list vargs;
     va_start(vargs, chaine);
     int nbrParam = 0;
@@ -102,7 +121,7 @@ void erreur(char *chaine, ...) {
     exit(1);
 }
 
-char *construitChaine(char *chaine, char **tabParam) {
+char *construitChaine(const char *chaine, char **tabParam) {
 
     int allocMemoire = strlen(chaine);
     char *pos = strstr(chaine, "@");
@@ -156,20 +175,20 @@ void verifieParametre(int nbrParam)
     // trop de praramètre
     if (nbrParam > 2)
     {
-        erreur("Il y a trop de parametre");
+        erreur("Il y a trop de parametre", NULL);
         programmeOk = false;
     }
     // aucun paramètre
     else if (nbrParam <= 1)
     {
-        erreur("presiser le chemin du fichier a compiler");
+        erreur("presiser le chemin du fichier a compiler", NULL);
         programmeOk = false;
     }
     // OK
     else
     {
         programmeOk = true;
-        journal("Contenue parametre : OK");
+        journal("Contenue parametre : OK", NULL);
     }
 }
 
@@ -220,4 +239,78 @@ char *lectureFichier(const char *nomChemin)
     fclose(fichier);
 
     return contenueFichier;
+}
+
+void compilation(char *programmeVad)
+{
+
+    // détection du prmier utiliser
+    // variable, classe, création fonction ou appelle fonction
+    char *programmeC = NULL;
+    int nbrLigne = occurence(programmeVad, "\n");
+    char **tabLigne = (char **)malloc(occurence(programmeVad, "\n") * sizeof(char *));
+
+    int index = 0;
+    char *token = strtok(programmeVad, "\n");
+    
+    while (token != NULL) {
+        tabLigne[index] = (char *)malloc(strlen(token) + 1);
+        if (tabLigne[index] != NULL) {
+            strcpy(tabLigne[index], token);
+            index++;
+        }
+        token = strtok(NULL, "\n");
+    }
+
+    for (size_t i = 0; i < nbrLigne; i++)
+    {
+        journal(tabLigne[i],NULL);
+        if (declarationVariable(tabLigne[i], &programmeC)) {
+            journal("OK", NULL);
+        }
+    }
+}
+
+int occurence(const char *chaine, const char *chaineOccurence) {
+    int lignes = 0;
+    const char *ptr = chaine;
+
+    while (*ptr != '\0') {
+        if (*ptr == *chaineOccurence) {
+            lignes++;
+        }
+        ptr++;
+    }
+
+    // Si la chaîne ne se termine pas par un caractère de nouvelle ligne, ajoutez 1 pour la dernière ligne
+    if (ptr > chaine && *(ptr - 1) != *chaineOccurence) {
+        lignes++;
+    }
+
+    return lignes;
+}
+
+bool declarationVariable(const char *chaine, char **programmeC) {
+
+    bool variableTrouve = false;
+    int tabMot = 0;
+    tabMot += occurence(chaine, " ");
+    tabMot += occurence(chaine, "=");
+    printf("%i", tabMot);
+
+    for (int i = 0; i < sizeof(typeVariableVAD); i++) {
+        char variableRecherchee[strlen(typeVariableVAD[i]) + 2]; // +2 pour l'espace et le caractère nul
+        snprintf(variableRecherchee, sizeof(variableRecherchee), "%s ", typeVariableVAD[i]);
+
+        if (strncmp(chaine, variableRecherchee, strlen(variableRecherchee)) == 0) {
+            variableTrouve = true;
+            if (typeVariableVAD[i] == "chaine") {
+                concateChaine(&programmeC, *programmeC, typeVariableC[i]);
+                journal(*programmeC, NULL);
+            }
+            break;
+        }
+    }
+
+    return variableTrouve;
 }
