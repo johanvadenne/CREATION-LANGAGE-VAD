@@ -1,11 +1,3 @@
 chaine texte = "mon texte"
 
 journal(texte)
-
-
-
-
-
-
-
-
