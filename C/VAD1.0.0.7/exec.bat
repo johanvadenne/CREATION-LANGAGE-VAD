@@ -1,1 +1,0 @@
-.\programmeVAD.exe .\programme.vad
