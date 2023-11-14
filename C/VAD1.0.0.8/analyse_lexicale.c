@@ -18,6 +18,7 @@ struct Token {
 };
 
 char SeparateurGarder[] = {'(',')','[',']','{','}','"','\'','+','-','*','=','%','<','>', '\n'};
+bool guillemetOuvert = false;
 
 int estSeparateur(char caractere) {
     return caractere == ' ' || caractere == '\0';
@@ -39,47 +40,129 @@ struct Token* nouveauToken(const char* nomType, int type, const char* valeur) {
     token->nomType = strdup(nomType);
     token->type = type;
     token->valeur = strdup(valeur);
-    printf("%s[%i,%s]", nomType, type, valeur);
+    printf("%s[%i,%s]\n", nomType, type, valeur);
     return token;
 }
 
-void analyseurLexem(char *chaine) {
+bool estEntier(const char *chaine) {
+    char *fin;
+    strtol(chaine, &fin, 10);  // Utilise la base 10
+    return *fin == '\0';
+}
+
+bool estDecimale(const char *chaine) {
+    char *fin;
+    strtod(chaine, &fin);
+    return *fin == '\0';
+}
+
+void analyseurLexem(char *chaine, int longueur) {
     
-    // variable
+    // variable+fonction+classe
     if (strcasecmp(chaine, "lettre") == 0) {
-        return nouveauToken("variable", VARIABLE_LETTRE, chaine);
+        nouveauToken("variable", VARIABLE_LETTRE, chaine);
     }
 
     if (strcasecmp(chaine, "chaine") == 0) {
-        return nouveauToken("variable", VARIABLE_CHAINE, chaine);
+        nouveauToken("variable", VARIABLE_CHAINE, chaine);
     }
 
     if (strcasecmp(chaine, "entier") == 0) {
-        return nouveauToken("variable", VARIABLE_ENTIER, chaine);
+        nouveauToken("variable", VARIABLE_ENTIER, chaine);
     }
 
     if (strcasecmp(chaine, "decimale") == 0) {
-        return nouveauToken("variable", VARIABLE_DECIMALE, chaine);
+        nouveauToken("variable", VARIABLE_DECIMALE, chaine);
     }
 
     if (strcasecmp(chaine, "booleen") == 0) {
-        return nouveauToken("variable", VARIABLE_BOOLEEN, chaine);
+        nouveauToken("variable", VARIABLE_BOOLEEN, chaine);
     }
 
     if (strcasecmp(chaine, "structure") == 0) {
-        return nouveauToken("variable", VARIABLE_STRUCTURE, chaine);
+        nouveauToken("variable", VARIABLE_STRUCTURE, chaine);
     }
 
     if (strcasecmp(chaine, "constante") == 0) {
-        return nouveauToken("variable", VARIABLE_CONSTANTE, chaine);
+        nouveauToken("variable", VARIABLE_CONSTANTE, chaine);
     }
 
     if (strcasecmp(chaine, "fonction") == 0) {
-        return nouveauToken("variable", VARIABLE_FONCTION, chaine);
+        nouveauToken("variable", VARIABLE_FONCTION, chaine);
     }
 
     if (strcasecmp(chaine, "classe") == 0) {
-        return nouveauToken("variable", VARIABLE_CLASSE, chaine);
+        nouveauToken("variable", VARIABLE_CLASSE, chaine);
+    }
+
+    // signe
+    
+
+
+    // signe
+    if (strcmp(chaine, "+") == 0) {
+        nouveauToken("signe", ADDITION, chaine);
+    }
+
+    if (strcmp(chaine, "*") == 0) {
+        nouveauToken("signe", MULTIPLICATION, chaine);
+    }
+
+    if (strcmp(chaine, "-") == 0) {
+        nouveauToken("signe", SOUSTRACTION, chaine);
+    }
+
+    if (strcmp(chaine, "/") == 0) {
+        nouveauToken("signe", DIVISION, chaine);
+    }
+
+    if (strcmp(chaine, "%%") == 0) {
+        nouveauToken("signe", MODULO, chaine);
+    }
+
+    if (strcasecmp(chaine, "et") == 0) {
+        nouveauToken("signe", ET, chaine);
+    }
+
+    if (strcasecmp(chaine, "ou") == 0) {
+        nouveauToken("signe", OU, chaine);
+    }
+
+    if (strcasecmp(chaine, "pas") == 0) {
+        nouveauToken("signe", PAS, chaine);
+    }
+
+    if (strcmp(chaine, "<") == 0) {
+        nouveauToken("signe", INFERIEUR, chaine);
+    }
+
+    if (strcmp(chaine, ">") == 0) {
+        nouveauToken("signe", SUPERIEUR, chaine);
+    }
+
+    if (strcmp(chaine, "=") == 0) {
+        nouveauToken("signe", EGALE, chaine);
+    }
+
+    // valeur
+    if ((longueur == 1) && guillemetOuvert) {
+        nouveauToken("valeur", VALEUR_LETTRE, chaine);
+    }
+
+    if (guillemetOuvert) {
+        nouveauToken("valeur", VALEUR_CHAINE, chaine);
+    }
+
+    if (estEntier(chaine)) {
+        nouveauToken("valeur", VALEUR_ENTIER, chaine);
+    }
+
+    if (estDecimale(chaine)) {
+        nouveauToken("valeur", VALEUR_DECIMALE, chaine);
+    }
+
+    if (strcasecmp(chaine, "vrai") || strcasecmp(chaine, "faux") == 0) {
+        nouveauToken("valeur", VALEUR_BOOLEEN, chaine);
     }
 }
 
@@ -96,7 +179,7 @@ int main() {
             if (!separateur) {
                 strncpy(sousChaine, codeSource + indiceDebut, longueurSousChaine);
                 sousChaine[longueurSousChaine]='\0';
-                printf("Valeur: %s\n", sousChaine);
+                analyseurLexem(sousChaine, longueurSousChaine);
                 indiceDebut = i+1;
                 separateur = true;
             }
@@ -109,10 +192,13 @@ int main() {
             if (!separateur) {
                 strncpy(sousChaine, codeSource + indiceDebut, longueurSousChaine);
                 sousChaine[longueurSousChaine]='\0';
-                printf("Valeur: %s\n", sousChaine);
+                analyseurLexem(sousChaine, longueurSousChaine);
                 indiceDebut = i+1;
             }
-            printf("Valeur: %c\n", codeSource[i]);
+            // Réinitialisation de la chaîne avec '\0'
+            memset(sousChaine, '\0', sizeof(sousChaine));
+            sousChaine[0]=codeSource[i];
+            analyseurLexem(sousChaine, 1);
             separateur = true;
         }
         else {
