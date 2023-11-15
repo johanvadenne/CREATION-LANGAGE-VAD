@@ -4,8 +4,8 @@
 #include <ctype.h>
 #include <stdbool.h> 
 
-enum valeur {VALEUR_LETTRE, VALEUR_CHAINE, VALEUR_ENTIER, VALEUR_DECIMALE, VALEUR_BOOLEEN};
 enum typeVariable {VARIABLE_LETTRE, VARIABLE_CHAINE, VARIABLE_ENTIER, VARIABLE_DECIMALE, VARIABLE_BOOLEEN, VARIABLE_STRUCTURE, VARIABLE_CONSTANTE, VARIABLE_FONCTION, VARIABLE_CLASSE};
+enum valeur {VALEUR_LETTRE, VALEUR_CHAINE, VALEUR_ENTIER, VALEUR_DECIMALE, VALEUR_BOOLEEN};
 enum operateurs { ADDITION, MULTIPLICATION, SOUSTRACTION, DIVISION, RESTE, MODULO, ET, OU, PAS, INFERIEUR, INFERIEUR_EGALE, SUPERIEUR, SUPERIEUR_EGALE, DIFFIRENT, STRICT_EGALE};
 enum attribution {EGALE, PLUS_EGALE, MOINS_EGALE, DIVISE_EGALE, MULTIPLI_EGALE, RESTE_EGALE, MODULO_EGALE};
 enum separateur {ESPACE, SAUT_DE_LIGNE};
@@ -22,8 +22,8 @@ char *tabTypeVariable[] = {"lettre", "chaine", "lettre", "decimale", "booleen", 
 char *tabOperateurs[] = {"==", "*", "-", "/", "//", "%%", "et", "ou", "pas", "<", "<=", ">", ">=", "<>", "==="};
 char *tabAttribution[] = {"=", "+=", "-=", "/=", "*=", "//=", "%%="};
 char *tabCharactere[] = {"'", "\"", "[]", "{}", "()"};
-char tabSeparateur[] = {' ', '\n'};
-char tabSeparateurGarder[] = {'=', '+', '-','*', '-','<', '>','(', ')','{', '}','[', ']','\'', '"'};
+char tabSeparateur[] = {' ', '\n', ","};
+char tabSeparateurGarder[] = {'=', '+','/','-','*', '-','<', '>','(', ')','{', '}','[', ']','\'', '"'};
 
 bool estSeparateur(char lettre) {
     int taille = sizeof(tabSeparateur) / sizeof(tabSeparateur[0]);
@@ -103,6 +103,7 @@ int main() {
     char codeSource[] = "entier entierX = 5\n"
                         "entier entierY=3\n"
                         "entier entierZ=entierX+entierY\n"
+                        "entier entierZ/=2\n"
                         "chaine chaineX = \"Bonjour \"\n"
                         "chaine chaineY=\"tout le monde\"\n"
                         "chaine chaineZ=chaineX+chaineY\n";
