@@ -1,0 +1,7 @@
+lettre lettreTest = 'A'
+entier monEntier = 6
+chaine monTexte = "Bonjour"
+decimale monNombre = 3.14
+booleen estVrai = vrai
+
+journal(monTexte)

@@ -1,0 +1,164 @@
+{
+  "main": {
+    "id": "f4a83c1e9bf85af7",
+    "type": "split",
+    "children": [
+      {
+        "id": "4bbdb5f59633ca05",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c9d474239af02b3d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "doc/MEMENTO Fonction générique.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a87befeaee0d20ca",
+    "type": "split",
+    "children": [
+      {
+        "id": "4cf31b77f267aef4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "81316dacce14822a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "6fc997ccbacba730",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "68678c8d7b998f6e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "e7a99cc0794bd57c",
+    "type": "split",
+    "children": [
+      {
+        "id": "dae90b0842cceff6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "adc6a5ca26cf1759",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "doc/MEMENTO Fonction générique.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "7e2dff345db3ac4e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "doc/MEMENTO Fonction générique.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "0b198812b4a43fc2",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "ae63b122a358a3b1",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "doc/MEMENTO Fonction générique.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Ouvrir le sélecteur rapide": false,
+      "graph:Ouvrir la vue graphique": false,
+      "canvas:Créer une nouvelle toile": false,
+      "daily-notes:Ouvrir la note quotidienne": false,
+      "templates:Insérer le modèle": false,
+      "command-palette:Ouvrir la palette de commandes": false
+    }
+  },
+  "active": "c9d474239af02b3d",
+  "lastOpenFiles": [
+    "VAD3.0/lex.yy.c",
+    "doc/MEMENTO variable.md",
+    "VAD3.0/ecriture vad/test_analyseur.txt",
+    "VAD3.0/ecriture vad/programme_test copy.vad",
+    "VAD3.0/lexer.exe",
+    "VAD3.0/scanner.l",
+    "VAD3.0/parser.tab.h",
+    "VAD3.0/parser.tab.c",
+    "VAD3.0/parser.exe",
+    "VAD3.0/parser.tab.o",
+    "VAD3.0/lex.yy.o",
+    "doc/MEMENTO Fonction générique.md"
+  ]
+}

@@ -1,0 +1,22 @@
+lettre premiereLettrePrenom = "J"
+lettre premiereLettreNom = "V"
+chaine prenom = "johan"
+chaine nom = "vadenne"
+entier age = 19
+decimale taille = 182.5
+booleen homme = vrai
+
+journal(premiereLettrePrenom)
+journal(premiereLettreNom)
+journal(prenom)
+journal(nom)
+journal(age)
+journal(taille)
+journal(homme)
+
+si (homme) {
+    journal("je m'apelle " + prenom + " " + nom + " je suis un homme, mon abreviation est " + premiereLettrePrenom + premiereLettreNom + ", j'ai " + age + " et mesure " + taille)
+}
+sinon {
+    journal("je m'apelle " + prenom + " " + nom + " je suis une femme, mon abreviation est " + premiereLettrePrenom + premiereLettreNom + ", j'ai " + age + " et mesure " + taille)
+}
