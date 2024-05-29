@@ -1,11 +1,5 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-#include "parser.tab.h"
-
-// Déclarations de fonctions
-void yyerror(const char *s);
-int yywrap(void);
+#include "simple.h"
 %}
 
 CHIFFRE         [0-9]
@@ -15,7 +9,6 @@ DECIMALE        [0-9]+\.[0-9]+
 BOOLEEN         (vrai|faux)
 CHAINE          (\"([^\\\"]|\\.)*\"|\'([^\\\"]|\\.)*\')
 TYPE_VARIABLE   (lettre|chaine|entier|decimale|booleen)
-PROCEDURE       (journal)
 
 %%
 
@@ -28,18 +21,19 @@ PROCEDURE       (journal)
 {DECIMALE} { yylval.floatval = atof(yytext); return DECIMALE; }
 {BOOLEEN} { yylval.boolval = strcmp(yytext, "vrai") == 0; return BOOLEEN; }
 {TYPE_VARIABLE} { return TYPE_VARIABLE; }
-{PROCEDURE} { return PROCEDURE; }
-{LETTRE}({LETTRE}|{CHIFFRE})* { yylval.str = strdup(yytext); return IDENTIFIER; }
+"log" { return LOG; }
+{LETTRE}({LETTRE}|{CHIFFRE})* { yylval.str = strdup(yytext); return VARIABLE; }
 "+" { return '+'; }
 "-" { return '-'; }
 "*" { return '*'; }
 "/" { return '/'; }
-"=" { return '='; }
+"=" { return AFFECTATION; }
 "(" { return '('; }
 ")" { return ')'; }
 "{" { return '{'; }
 "}" { return '}'; }
 ";" { return ';'; }
+"\n" { return FIN_DE_LIGNE; }
 [ \t\n]+ ; // Ignore les espaces blancs
 . { printf("UNKNOWN: %s\n", yytext); }
 

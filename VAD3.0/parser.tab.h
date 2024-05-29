@@ -46,15 +46,30 @@
      BOOLEEN = 262,
      CHAINE = 263,
      TYPE_VARIABLE = 264,
-     PROCEDURE = 265,
-     IDENTIFIER = 266
+     LOG = 265,
+     VARIABLE = 266,
+     AFFECTATION = 267,
+     FIN_DE_LIGNE = 268
    };
 #endif
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 1676 of yacc.c  */
+#line 9 "parser.y"
+
+        long nombre_;
+        char* texte_;
+
+
+
+/* Line 1676 of yacc.c  */
+#line 72 "parser.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
